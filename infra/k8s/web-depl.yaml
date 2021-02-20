@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: baxhen/web
+          env:
+            - name: NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+              value: pk_test_Gi5ry9vOhLbCtkBmkchRqfuX
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-srv
+spec:
+  selector:
+    app: web
+  ports:
+    - name: web
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
